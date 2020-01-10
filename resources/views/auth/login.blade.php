@@ -1,78 +1,96 @@
-@extends('layouts.app')
+@extends('layouts.one.app') @section('content')
+<div class="relative px-4 lg:px-6 md:py-16 lg:py-24 bg-gray-100 h-screen flex items-center"> 
+    <div class="absolute left-0 right-0 top-0 bg-white">
+        <div class="container px-4 mx-auto py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <a href="/" class="py-2 md:py-0">
+                        <div class="flex items-center">
+                            <img src="/logo.svg" alt="gye" width="100" class="hidden md:block" />
+                            <img src="/logo.svg" alt="gye" width="70" class="md:hidden" />
 
-@section('content')
-    <div class="container mx-auto">
-        <div class="flex flex-wrap justify-center">
-            <div class="w-full max-w-sm">
-                <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
-
-                    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
-                        {{ __('Login') }}
-                    </div>
-
-                    <form class="w-full p-6" method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="flex flex-wrap mb-6">
-                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
-                                {{ __('E-Mail Address') }}:
-                            </label>
-
-                            <input id="email" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('email') border-red-500 @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                            @error('email')
-                                <p class="text-red-500 text-xs italic mt-4">
-                                    {{ $message }}
-                                </p>
-                            @enderror
+                            <span class="font-bold text-gray-700 text-lg md:text-xl ml-2">{{config('app.name')}}</span>
                         </div>
-
-                        <div class="flex flex-wrap mb-6">
-                            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">
-                                {{ __('Password') }}:
-                            </label>
-
-                            <input id="password" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('password') border-red-500 @enderror" name="password" required>
-
-                            @error('password')
-                                <p class="text-red-500 text-xs italic mt-4">
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
-
-                        <div class="flex mb-6">
-                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                            <label class="text-sm text-gray-700 ml-3" for="remember">
-                                {{ __('Remember Me') }}
-                            </label>
-                        </div>
-
-                        <div class="flex flex-wrap items-center">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                {{ __('Login') }}
-                            </button>
-
-                            @if (Route::has('password.request'))
-                                <a class="text-sm text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline ml-auto" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <p class="w-full text-xs text-center text-gray-700 mt-8 -mb-4">
-                                    {{ __("Don't have an account?") }}
-                                    <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('register') }}">
-                                        {{ __('Register') }}
-                                    </a>
-                                </p>
-                            @endif
-                        </div>
-                    </form>
-
+                    </a>
+                </div>
+                <div>
+                    {{ __("Don't have an account?") }}
+                    @component('components.linkto', [
+                        'href' => route('register')
+                    ])
+                        {{ __("Register Now") }}
+                    @endcomponent 
                 </div>
             </div>
         </div>
     </div>
+    <div class="max-w-md mx-auto w-full">
+        @component('components.card')   
+            @component('components.heading', [
+                'size' => 'heading2',
+                'classes' => "mb-1 text-center"
+            ])
+                Welcome back
+            @endcomponent 
+            @component('components.heading', [
+                'size' => 'small',
+                'classes' => "mb-6 text-center"
+            ])
+                Please enter your email and password to
+                continue
+            @endcomponent  
+            <form 
+                method="POST"
+                action="{{ route('login') }}"
+                onsubmit="
+                    signInButton.disabled = true;
+                    signInButton.classList.add('base-spinner');"
+            >
+                @csrf
+
+                @component('components.input', [
+                    'label' => 'Email',
+                    'name' => 'email',
+                    'type' => 'email',
+                    'attributes' => 'required'
+                ])  
+                @endcomponent
+
+                @component('components.input', [
+                    'label' => 'Password',
+                    'name' => 'password',
+                    'type' => 'password',
+                    'attributes' => 'required'
+                ])   
+                @endcomponent 
+
+                @component('components.button', [
+                    'name' => 'signInButton',
+                    'type' => 'submit',
+                    'classes' => 'w-full'
+                ])
+                    Sign In
+                @endcomponent
+
+                <div class="flex flex-wrap items-center"> 
+
+                    @if (Route::has('password.request'))
+                    <a
+                    class="text-gray-500 hover:text-orange-700 block mt-4"
+                        href="{{ route('password.request') }}"
+                    >{{ __("Forgot Your Password?") }}</a> 
+                    @endif
+                </div>
+            </form>
+        @endcomponent  
+
+        @component('components.heading', [
+            'size' => 'small',
+            'classes' => "text-center mt-4 text-sm",
+            'color' => 'text-gray-500'
+        ])
+            Copyrights &copy; {{date('Y')}} {{ config('app.name', 'Laravel') }}
+        @endcomponent  
+    </div> 
+</div>
 @endsection
