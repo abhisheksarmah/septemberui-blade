@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\ServiceProvider;
+use BinaryTorch\LaRecipe\Facades\LaRecipe;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        BladeX::component('components.*');
+        BladeX::prefix('s');
     }
 }

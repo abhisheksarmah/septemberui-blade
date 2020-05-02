@@ -1,5 +1,5 @@
 <div 
-	class="shadow w-full rounded-lg bg-white overflow-hidden w-full block" 
+	class="shadow w-full rounded-lg bg-white overflow-hidden w-full block {{$classes ?? ''}}" 
     >
         @if (isset($withHeader) && $withHeader == true)
 		<div
@@ -14,7 +14,7 @@
 		</div>
         @endif
 
-		<div class="{{$padding ?? 'px-8 py-6'}}">
+		<div class="{{$isPadding ?? 'px-8 py-6'}}">
 			{{ $slot }}
 		</div>
         @if (isset($withFooter) && $withFooter == true)

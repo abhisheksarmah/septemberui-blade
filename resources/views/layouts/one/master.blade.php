@@ -11,18 +11,32 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
     <!-- Scripts -->
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.6.2/dist/alpine.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.9.7/dist/alpine.js" defer></script>
 
 </head>
 <body class="bg-gray-100 antialiased font-sans text-gray-600">
     <main class="flex w-100 flex-col min-h-screen" id="app">
-        @include('partials.navbar.one.top')
+        @if(config('septemberui.layout') == 'sidebar')
+            {{-- Navbar started here --}}
+            @include('partials.navbar.one.sidebar')
+            {{-- Navbar ends here --}}
+        @endif
 
-        <div class="main flex-1">
-			@yield('content')
-        </div>
+        @if(config('septemberui.layout') == 'topbar')
+            @include('partials.navbar.one.top')
+            {{-- Main layout started here --}}
+            <main class="px-4 lg:px-6 py-10 flex-1">
+                <div class="container mx-auto">
+                    @yield('content') 
+                </div>
+            </main>
+            {{-- Main layout ends here --}}
+        @endif
+
+
         {{-- <div class="px-4 lg:px-6 py-16" style="background: #26385D">
 			<div class="container mx-auto">
 				<div class="flex flex-wrap md:flex-1 -mx-4">

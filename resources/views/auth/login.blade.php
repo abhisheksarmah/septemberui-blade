@@ -15,30 +15,20 @@
                 </div>
                 <div>
                     {{ __("Don't have an account?") }}
-                    @component('components.linkto', [
-                        'href' => route('register')
-                    ])
-                        {{ __("Register Now") }}
-                    @endcomponent 
+                    <s-linkto href="{{route('register')}}">{{ __("Register Now") }}</s-linkto> 
                 </div>
             </div>
         </div>
     </div>
     <div class="max-w-md mx-auto w-full">
-        @component('components.card')   
-            @component('components.heading', [
-                'size' => 'heading2',
-                'classes' => "mb-1 text-center"
-            ])
+        <s-card> 
+            <s-heading size='heading2' classes="mb-1 text-center">
                 Welcome back
-            @endcomponent 
-            @component('components.heading', [
-                'size' => 'small',
-                'classes' => "mb-6 text-center"
-            ])
+            </s-heading>  
+            <s-heading size='small' classes="mb-6 text-center">
                 Please enter your email and password to
                 continue
-            @endcomponent  
+            </s-heading>   
             <form 
                 method="POST"
                 action="{{ route('login') }}"
@@ -48,29 +38,23 @@
             >
                 @csrf
 
-                @component('components.input', [
-                    'label' => 'Email',
-                    'name' => 'email',
-                    'type' => 'email',
-                    'attributes' => 'required'
-                ])  
-                @endcomponent
+                <s-input 
+                    label='Email'
+                    name='email'
+                    type='email'
+                    attributes='required' />  
 
-                @component('components.input', [
-                    'label' => 'Password',
-                    'name' => 'password',
-                    'type' => 'password',
-                    'attributes' => 'required'
-                ])   
-                @endcomponent 
+                <s-input 
+                    label='Password'
+                    name='password'
+                    type='password'
+                    attributes='required' />   
 
-                @component('components.button', [
-                    'name' => 'signInButton',
-                    'type' => 'submit',
-                    'classes' => 'w-full'
-                ])
-                    Sign In
-                @endcomponent
+                <s-button
+                    name='signInButton'
+                    type='submit'
+                    classes='w-full'
+                    >Sign In</s-button> 
 
                 <div class="flex flex-wrap items-center"> 
 
@@ -81,16 +65,12 @@
                     >{{ __("Forgot Your Password?") }}</a> 
                     @endif
                 </div>
-            </form>
-        @endcomponent  
+            </form> 
+        </s-card>
 
-        @component('components.heading', [
-            'size' => 'small',
-            'classes' => "text-center mt-4 text-sm",
-            'color' => 'text-gray-500'
-        ])
-            Copyrights &copy; {{date('Y')}} {{ config('app.name', 'Laravel') }}
-        @endcomponent  
-    </div> 
+        <s-heading size='small' classes="text-center mt-4 text-sm" color="text-gray-500">
+           Copyrights &copy; {{date('Y')}} {{ config('app.name', 'Laravel') }}
+        </s-heading>
+    </div>
 </div>
 @endsection
